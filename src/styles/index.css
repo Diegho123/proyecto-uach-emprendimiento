@@ -1,0 +1,275 @@
+@import 'tailwindcss';
+
+/* ── Tipografía ────────────────────────────────────────────────────────────
+   Bricolage Grotesque  → titulares (carácter editorial, alto contraste óptico)
+   Plus Jakarta Sans    → interfaz y texto corrido
+   JetBrains Mono       → cifras, SKU y datos tabulares
+   Se sirven localmente vía @fontsource: sin CDN, sin FOUT en producción.  */
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: 'Bricolage Grotesque Variable', 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Neutros templados (leve matiz azul, evita el gris plano) */
+  --color-ink-25: #fbfcfd;
+  --color-ink-50: #f6f8fa;
+  --color-ink-100: #eef1f5;
+  --color-ink-200: #e0e5ec;
+  --color-ink-300: #c6cedb;
+  --color-ink-400: #98a3b6;
+  --color-ink-500: #6b7789;
+  --color-ink-600: #4f5a6b;
+  --color-ink-700: #3a4453;
+  --color-ink-800: #232b38;
+  --color-ink-900: #161c26;
+  --color-ink-950: #0d1218;
+
+  /* Marca: azul petróleo profundo, más sobrio que el azul genérico */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dce7ff;
+  --color-brand-200: #c0d3ff;
+  --color-brand-300: #96b6ff;
+  --color-brand-400: #6b8ffb;
+  --color-brand-500: #4a6cf0;
+  --color-brand-600: #3450dd;
+  --color-brand-700: #2b3fb8;
+  --color-brand-800: #283793;
+  --color-brand-900: #263375;
+  --color-brand-950: #1a2148;
+
+  /* Semánticos financieros */
+  --color-positive-50: #ecfdf3;
+  --color-positive-100: #d1fadf;
+  --color-positive-500: #12b76a;
+  --color-positive-600: #039855;
+  --color-positive-700: #027a48;
+
+  --color-negative-50: #fef3f2;
+  --color-negative-100: #fee4e2;
+  --color-negative-500: #f04438;
+  --color-negative-600: #d92d20;
+  --color-negative-700: #b42318;
+
+  --color-warning-50: #fffaeb;
+  --color-warning-100: #fef0c7;
+  --color-warning-500: #f79009;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+
+  --radius-card: 0.875rem;
+
+  --shadow-subtle: 0 1px 2px 0 rgb(16 24 40 / 0.05);
+  --shadow-card: 0 1px 3px 0 rgb(16 24 40 / 0.06), 0 1px 2px -1px rgb(16 24 40 / 0.04);
+  --shadow-raised: 0 4px 12px -2px rgb(16 24 40 / 0.08), 0 2px 4px -2px rgb(16 24 40 / 0.04);
+  --shadow-pop: 0 12px 32px -8px rgb(16 24 40 / 0.18), 0 4px 8px -4px rgb(16 24 40 / 0.08);
+}
+
+/* ── Tokens semánticos de superficie ─────────────────────────────────────── */
+@layer base {
+  :root {
+    --surface-app: var(--color-ink-50);
+    --surface-panel: #ffffff;
+    --surface-raised: #ffffff;
+    --surface-sunken: var(--color-ink-100);
+    --surface-inverse: var(--color-ink-900);
+
+    --border-subtle: var(--color-ink-200);
+    --border-strong: var(--color-ink-300);
+
+    --text-strong: var(--color-ink-900);
+    --text-default: var(--color-ink-700);
+    --text-muted: var(--color-ink-500);
+    --text-faint: var(--color-ink-400);
+    --text-inverse: #ffffff;
+
+    --accent: var(--color-brand-600);
+    --accent-soft: var(--color-brand-50);
+    --accent-text: var(--color-brand-700);
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --surface-app: var(--color-ink-950);
+    --surface-panel: #141b24;
+    --surface-raised: #1a222d;
+    --surface-sunken: #0f151c;
+    --surface-inverse: var(--color-ink-100);
+
+    --border-subtle: #242e3b;
+    --border-strong: #33404f;
+
+    --text-strong: #f2f5f9;
+    --text-default: #c3cddb;
+    --text-muted: #8d9aac;
+    --text-faint: #6b7789;
+    --text-inverse: var(--color-ink-950);
+
+    --accent: var(--color-brand-400);
+    --accent-soft: #1b2540;
+    --accent-text: var(--color-brand-300);
+
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: var(--border-subtle);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--surface-app);
+    color: var(--text-default);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv05' 1, 'ss01' 1;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--text-strong);
+    letter-spacing: -0.02em;
+    font-optical-sizing: auto;
+  }
+
+  /* Las cifras siempre alineadas en columnas */
+  table, .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-200);
+    color: var(--color-ink-900);
+  }
+
+  .dark ::selection {
+    background-color: var(--color-brand-800);
+    color: #ffffff;
+  }
+
+  /* Scrollbars discretas */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--text-faint); }
+
+  /* Inputs numéricos sin flechas: los montos se escriben, no se pulsan */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] { -moz-appearance: textfield; }
+}
+
+/* ── Utilidades de superficie ────────────────────────────────────────────── */
+@utility surface-panel {
+  background-color: var(--surface-panel);
+}
+@utility surface-sunken {
+  background-color: var(--surface-sunken);
+}
+@utility surface-app {
+  background-color: var(--surface-app);
+}
+@utility text-strong {
+  color: var(--text-strong);
+}
+@utility text-default {
+  color: var(--text-default);
+}
+@utility text-muted {
+  color: var(--text-muted);
+}
+@utility text-faint {
+  color: var(--text-faint);
+}
+@utility text-accent {
+  color: var(--accent-text);
+}
+@utility border-subtle {
+  border-color: var(--border-subtle);
+}
+@utility border-strong {
+  border-color: var(--border-strong);
+}
+
+/* Etiqueta de sección: versalita ancha, marca jerarquía sin gritar */
+@utility label-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Control deslizante coherente en ambos temas */
+@utility range-brand {
+  appearance: none;
+  width: 100%;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 999px;
+    background: var(--accent);
+    border: 3px solid var(--surface-panel);
+    box-shadow: 0 1px 4px rgb(16 24 40 / 0.3);
+    cursor: grab;
+  }
+  &::-webkit-slider-thumb:active { cursor: grabbing; }
+
+  &::-moz-range-thumb {
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 999px;
+    background: var(--accent);
+    border: 3px solid var(--surface-panel);
+    box-shadow: 0 1px 4px rgb(16 24 40 / 0.3);
+    cursor: grab;
+  }
+}
+
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@utility animate-fade-rise {
+  animation: fade-rise 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
